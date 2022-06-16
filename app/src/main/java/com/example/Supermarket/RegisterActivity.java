@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Please check your username and password inputs", Toast.LENGTH_SHORT).show();
                 } else {
 //                    int lastId = listUser.get(listUser.size()-1).getUserId();
-                    listUser.add(new User(listUser.size(), email, username, password));
+                    listUser.add(new User(listUser.size()-1, email, username, password));
                     Toast.makeText(getApplicationContext(), "Account created. Please sign up", Toast.LENGTH_SHORT).show();
                     finish();
                 }

@@ -1,6 +1,7 @@
 package com.example.Supermarket;
 
 import static Services.UserServices.createUserData;
+import static Services.UserServices.currentUser;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Item.Category> category = ItemService.category;
 //    ActivityMainBinding binding;
     SearchView searchView;
-    Button btn_sayur, btn_daging, btn_dairy, btn_bumbu;
+    Button btn_sayur, btn_daging, btn_dairy, btn_bumbu, btn_cart;
 //    String[] category = {"sayur dan buah", "daging dan seafood", "dairy", "bumbu dapur"};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,18 +43,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         searchView = (SearchView) findViewById(R.id.searchbar);
-        ItemService.generateItemData();
+        if(ItemService.itemList.isEmpty()){
+            ItemService.generateItemData();
+        }
 
-        Log.wtf("oncreate home", listItem.toString());
+        Log.wtf("oncreate home", Integer.toString(currentUser.getUserId()));
         btn_sayur = (Button) findViewById(R.id.btn_sayur);
         btn_daging = (Button) findViewById(R.id.btn_daging);
         btn_dairy = (Button) findViewById(R.id.btn_dairy);
         btn_bumbu = (Button) findViewById(R.id.btn_bumbu);
+        btn_cart = (Button) findViewById(R.id.btn_cart);
 
+        btn_cart.setOnClickListener(this);
         btn_sayur.setOnClickListener(this);
         btn_daging.setOnClickListener(this);
         btn_dairy.setOnClickListener(this);
         btn_bumbu.setOnClickListener(this);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,6 +103,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent4.putExtra("category", category.get(3).getId());
                 Log.wtf("onclick", category.get(0).getCategory_name());
                 startActivity(intent4);
+                break;
+            case R.id.btn_cart:
+                Intent intent5 = new Intent(this, CartActivity.class);
+                startActivity(intent5);
                 break;
         }
     }

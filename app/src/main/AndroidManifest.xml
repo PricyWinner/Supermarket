@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AssignmentProject_MobileComunitySolution">
         <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailItem"
             android:exported="false" />
         <activity

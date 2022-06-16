@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                 if(error){
                     Toast.makeText(LoginActivity.this, "Please check your username and password inputs", Toast.LENGTH_SHORT).show();
                 } else {
-//                    UserServices datas = (UserServices) getApplicationContext();
 
 
                     for(int i = 0; i < listUser.size(); i++){
@@ -68,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                intent.putExtra("userId", listUser.get(i).getUserId());
                                 UserServices.currentUser = listUser.get(i);
                                 startActivity(intent);
+                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
                             }
