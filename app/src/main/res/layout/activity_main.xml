@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    tools:context=".MainActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEXSTTSTS"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/test"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp">
+        <SearchView
+            android:id="@+id/searchbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </androidx.cardview.widget.CardView>
+<!--    <GridView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:numColumns="2">-->
+        <Button
+            android:id="@+id/btn_sayur"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Sayur dan Buah"/>
+        <Button
+            android:id="@+id/btn_daging"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Daging dan Seafood"/>
+        <Button
+            android:id="@+id/btn_dairy"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Dairy"/>
+        <Button
+            android:id="@+id/btn_bumbu"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Bumbu Dapur"/>
+<!--    </GridView>-->
+<!--    <GridView-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/test"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/gridView"-->
+<!--        android:numColumns="2"/>-->
+</LinearLayout>
