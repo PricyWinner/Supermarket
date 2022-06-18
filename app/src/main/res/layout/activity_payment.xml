@@ -23,6 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:id="@+id/recyclerViewpayment"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:id="@+id/tv_totalPrice"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
