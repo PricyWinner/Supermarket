@@ -69,11 +69,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        int price = cartItems.get(position).getItem().getPrice();
+        String priceText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(price));
+        int priceTotal = cartItems.get(position).getItem().getPrice() * cartItems.get(position).getCount();
+        String priceTotalText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(priceTotal));
+        String qty = "Qty: " + Integer.toString(cartItems.get(position).getCount());
         viewHolder.imageView.setImageResource(R.drawable.noimage);
         viewHolder.tv_title.setText(cartItems.get(position).getItem().getTitle());
-        viewHolder.tv_price.setText(Integer.toString(cartItems.get(position).getItem().getPrice()));
-        viewHolder.tv_quantity.setText(Integer.toString(cartItems.get(position).getCount()));
-        viewHolder.tv_totalPrice.setText(Integer.toString(cartItems.get(position).getItem().getPrice() * cartItems.get(position).getCount()));
+//        viewHolder.tv_price.setText(Integer.toString(cartItems.get(position).getItem().getPrice()));
+        viewHolder.tv_price.setText(priceText);
+        viewHolder.tv_quantity.setText(qty);
+//        viewHolder.tv_totalPrice.setText(Integer.toString(cartItems.get(position).getItem().getPrice() * cartItems.get(position).getCount()));
+        viewHolder.tv_totalPrice.setText(priceTotalText);
     }
 
     @Override

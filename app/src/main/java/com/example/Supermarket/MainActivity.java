@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SearchView searchView;
     Button btn_sayur, btn_daging, btn_dairy, btn_bumbu, btn_cart;
     BottomNavigationView bottom_navigation;
+
 //    String[] category = {"sayur dan buah", "daging dan seafood", "dairy", "bumbu dapur"};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

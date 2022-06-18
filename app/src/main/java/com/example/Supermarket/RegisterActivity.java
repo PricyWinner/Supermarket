@@ -24,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditText etEmail = findViewById(R.id.email);
         EditText etUsername = findViewById(R.id.username);
         EditText etPassword = findViewById(R.id.password);
+        EditText etPhoneNumber = findViewById(R.id.phoneNumber);
         Button login = findViewById(R.id.login);
         Button register = findViewById(R.id.register);
 
@@ -40,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString();
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
+                String phoneNumber = etPhoneNumber.getText().toString();
 
 //                UserServices datas = (UserServices) getApplicationContext();
 //                List<User> listUser = datas.getListUser();
@@ -60,6 +62,11 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if(username.length() < 3){
                     error = true;
                     etUsername.setError("Invalid username format");
+                }
+
+                if(phoneNumber.isEmpty()){
+                    error = true;
+                    etPhoneNumber.setError("Phone number couldn't be empty");
                 }
 
                 for(int i = 0; i < listUser.size(); i++){
