@@ -20,7 +20,7 @@ public class UserServices extends AppCompatActivity {
 //        listUser.add(new User(0, "user1@gmail.com", "user1", "password1234"));
 //        listUser.add(new User(1, "user2@gmail.com", "user2", "password1234"));
 //        listUser.add(new User(2, "user3@gmail.com", "user3", "password1234"));
-        listUser.add(new User(0, ".com", "user3", "a1"));
+//        listUser.add(new User(0, ".com", "user3", "a1"));
     }
 
 

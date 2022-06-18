@@ -16,6 +16,7 @@ import Services.UserServices;
 public class RegisterActivity extends AppCompatActivity {
 
     private List<User> listUser = UserServices.listUser;
+    DatabaseHelper dbhelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditText etPhoneNumber = findViewById(R.id.phoneNumber);
         Button login = findViewById(R.id.login);
         Button register = findViewById(R.id.register);
+        dbhelper = new DatabaseHelper(this);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,23 +71,33 @@ public class RegisterActivity extends AppCompatActivity {
                     etPhoneNumber.setError("Phone number couldn't be empty");
                 }
 
-                for(int i = 0; i < listUser.size(); i++){
-                    boolean exist = false;
+//                for(int i = 0; i < listUser.size(); i++){
+//                    boolean exist = false;
+//
+//                    if(listUser.get(i).getUserName().equalsIgnoreCase(username)){
+//                        error = true;
+//                        exist = true;
+//                        etUsername.setError("Username is already exist");
+//                    }
+//
+//                    if (listUser.get(i).getUserEmailAddress().equalsIgnoreCase(email)){
+//                        error = true;
+//                        exist = true;
+//                        etEmail.setError("Email is already exist");
+//                    }
+//
+//                    if(exist){
+//                        break;
+//                    }
+//                }
 
-                    if(listUser.get(i).getUserName().equalsIgnoreCase(username)){
+                if (dbhelper.checkIfUsernameExists(username) || dbhelper.checkIfEmailAddressExists(email)) {
+                    if (dbhelper.checkIfUsernameExists(username)) {
                         error = true;
-                        exist = true;
-                        etUsername.setError("Username is already exist");
-                    }
-
-                    if (listUser.get(i).getUserEmailAddress().equalsIgnoreCase(email)){
+                        etUsername.setError("Username already exists. Please choose another one.");
+                    } else if (dbhelper.checkIfEmailAddressExists(email)) {
                         error = true;
-                        exist = true;
-                        etEmail.setError("Email is already exist");
-                    }
-
-                    if(exist){
-                        break;
+                        etEmail.setError("Email Address already exists. Please choose another one.");
                     }
                 }
 
@@ -104,8 +116,9 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Please check your username and password inputs", Toast.LENGTH_SHORT).show();
                 } else {
 //                    int lastId = listUser.get(listUser.size()-1).getUserId();
-                    listUser.add(new User(listUser.size()-1, email, username, password));
-                    Toast.makeText(getApplicationContext(), "Account created. Please sign up", Toast.LENGTH_SHORT).show();
+//                    listUser.add(new User(listUser.size()-1, email, username, password));
+                    dbhelper.insertUser(email, username, phoneNumber, password);
+                    Toast.makeText(getApplicationContext(), "Account created. Please sign in", Toast.LENGTH_SHORT).show();
                     finish();
                 }
 
