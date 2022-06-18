@@ -11,21 +11,22 @@
         android:theme="@style/Theme.AssignmentProject_MobileComunitySolution">
         <activity
             android:name=".CartActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Your Cart"/>
         <activity
             android:name=".DetailItem"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:label="Nama" />
+            android:label="Categories" />
         <activity
             android:name=".DetailCategory"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
-            android:label="Profil" />
+            android:label="Profile" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false"

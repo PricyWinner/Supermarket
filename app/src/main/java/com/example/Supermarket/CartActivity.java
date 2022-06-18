@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,21 +18,33 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.stream.Collectors;
+
 import Adapters.CartAdapter;
+import Services.ItemService;
+import Services.UserServices;
+import Store.Store;
 
 public class CartActivity extends AppCompatActivity {
 
     BottomNavigationView bottom_navigation;
-
+    TextView empty;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
+        Log.wtf("cart", Store.cartItems.toString());
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new CartAdapter());
+        empty = (TextView) findViewById(R.id.tv_empty);
+
+        if(Store.cartItems.stream().filter(i -> i.getUserID() == UserServices.currentUser.getUserId()).count()>0){
+            empty.setVisibility(View.GONE);
+        }else{
+            empty.setVisibility(View.VISIBLE);
+        }
 
         bottom_navigation = findViewById(R.id.bottom_navigation);
         bottom_navigation.setSelectedItemId(R.id.cart);

@@ -91,9 +91,16 @@ public class DetailItem extends AppCompatActivity {
                     Store.cartItems.add(new CartItem(UserServices.currentUser.getUserId(), selectedItems, count));
                     Toast toast = Toast.makeText(getApplicationContext(), "items added to cart", Toast.LENGTH_SHORT);
                     toast.show();
-//                    System.out.println(Store.cartItems.toString());
+                    System.out.println(Store.cartItems.toString());
                     finish();
                 }
+            }else{
+                List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
+                Store.cartItems.remove(filteredList.get(0));
+
+                Toast toast = Toast.makeText(getApplicationContext(), "cart deleted", Toast.LENGTH_SHORT);
+                toast.show();
+                finish();
             }
 
 

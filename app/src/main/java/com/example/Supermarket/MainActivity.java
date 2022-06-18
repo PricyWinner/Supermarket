@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
-        searchView = (SearchView) findViewById(R.id.searchbar);
+//        searchView = (SearchView) findViewById(R.id.searchbar);
         if(ItemService.itemList.isEmpty()){
             ItemService.generateItemData();
         }

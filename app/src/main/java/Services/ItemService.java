@@ -3,12 +3,14 @@ package Services;
 import java.io.ObjectStreamException;
 import java.util.ArrayList;
 
+import Models.CartItem;
 import Models.Item;
 
 public class ItemService {
     public static ArrayList<Item> itemList = new ArrayList<Item>();
     public static ArrayList<Item.Category> category = new ArrayList<Item.Category>();
     public static ArrayList<Item> selectedCategoryItems = new ArrayList<Item>();
+    public static ArrayList<CartItem> userTransactions = new ArrayList<>();
     public static Item selectedItem = null;
     public static void generateItemData(){
         category.add(new Item.Category(0, "Sayur dan Buah"));
