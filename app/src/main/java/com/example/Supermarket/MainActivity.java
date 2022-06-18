@@ -20,6 +20,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.Supermarket.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    ActivityMainBinding binding;
     SearchView searchView;
     Button btn_sayur, btn_daging, btn_dairy, btn_bumbu, btn_cart;
+    BottomNavigationView bottom_navigation;
 //    String[] category = {"sayur dan buah", "daging dan seafood", "dairy", "bumbu dapur"};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,20 +55,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_daging = (Button) findViewById(R.id.btn_daging);
         btn_dairy = (Button) findViewById(R.id.btn_dairy);
         btn_bumbu = (Button) findViewById(R.id.btn_bumbu);
-        btn_cart = (Button) findViewById(R.id.btn_cart);
+//        btn_cart = (Button) findViewById(R.id.btn_cart);
 
-        btn_cart.setOnClickListener(this);
+//        btn_cart.setOnClickListener(this);
         btn_sayur.setOnClickListener(this);
         btn_daging.setOnClickListener(this);
         btn_dairy.setOnClickListener(this);
         btn_bumbu.setOnClickListener(this);
 
+        bottom_navigation = findViewById(R.id.bottom_navigation);
+        bottom_navigation.setSelectedItemId(R.id.home);
+
+        bottom_navigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getItemId() == R.id.home){
+                    return true;
+                }else if(item.getItemId() == R.id.cart){
+                    Intent goToCart = new Intent(getApplicationContext(), CartActivity.class);
+                    startActivity(goToCart);
+                    overridePendingTransition(0,0);
+                    return true;
+                }
+                else if(item.getItemId() == R.id.profile){
+                    Intent goToProfile = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(goToProfile);
+                    overridePendingTransition(0,0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent;
@@ -104,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.wtf("onclick", category.get(0).getCategory_name());
                 startActivity(intent4);
                 break;
-            case R.id.btn_cart:
-                Intent intent5 = new Intent(this, CartActivity.class);
-                startActivity(intent5);
-                break;
+//            case R.id.btn_cart:
+//                Intent intent5 = new Intent(this, CartActivity.class);
+//                startActivity(intent5);
+//                break;
         }
     }
 }

@@ -2,9 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     
-    <item android:id="@+id/profile"
-        android:icon="@drawable/ic_baseline_person_24"
-        android:iconTint="@color/white"
-        android:title="Profil"
-        app:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24"/>
+
+    <item
+        android:id="@+id/cart"
+        android:title="Cart"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"/>
+
+    <item
+        android:id="@+id/transaction"
+        android:title="transaction"
+        android:icon="@drawable/ic_baseline_history_24"/>
+
+    <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_baseline_person_24"/>
+
+
 </menu>

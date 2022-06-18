@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:text="NAMA"
+        android:text="Login"
         android:textColor="@color/blue_500"
         android:textSize="30sp"
         android:textStyle="bold"
