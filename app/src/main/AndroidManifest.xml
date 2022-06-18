@@ -10,9 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AssignmentProject_MobileComunitySolution">
         <activity
+            android:name=".PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".CartActivity"
             android:exported="false"
-            android:label="Your Cart"/>
+            android:label="Your Cart" />
         <activity
             android:name=".DetailItem"
             android:exported="false" />

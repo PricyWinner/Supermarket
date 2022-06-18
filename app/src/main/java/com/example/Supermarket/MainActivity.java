@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ItemService.generateItemData();
         }
 
-        Log.wtf("oncreate home", Integer.toString(currentUser.getUserId()));
+//        Log.wtf("oncreate home", Integer.toString(currentUser.getUserId()));
         btn_sayur = (Button) findViewById(R.id.btn_sayur);
         btn_daging = (Button) findViewById(R.id.btn_daging);
         btn_dairy = (Button) findViewById(R.id.btn_dairy);

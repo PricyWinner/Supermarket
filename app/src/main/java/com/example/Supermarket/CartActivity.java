@@ -29,6 +29,7 @@ public class CartActivity extends AppCompatActivity {
 
     BottomNavigationView bottom_navigation;
     TextView empty;
+    Button btn_checkout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +40,14 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new CartAdapter());
         empty = (TextView) findViewById(R.id.tv_empty);
+        btn_checkout = (Button) findViewById(R.id.btn_checkout);
 
         if(Store.cartItems.stream().filter(i -> i.getUserID() == UserServices.currentUser.getUserId()).count()>0){
             empty.setVisibility(View.GONE);
+            btn_checkout.setVisibility(View.VISIBLE);
         }else{
             empty.setVisibility(View.VISIBLE);
+            btn_checkout.setVisibility(View.GONE);
         }
 
         bottom_navigation = findViewById(R.id.bottom_navigation);
@@ -69,5 +73,10 @@ public class CartActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        btn_checkout.setOnClickListener((View v) -> {
+            Intent intent = new Intent(this, PaymentActivity.class);
+            startActivity(intent);
+        });;
     }
 }

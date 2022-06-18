@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nama </string>
+    <string name="app_name">Supermarket </string>
     <string name="register"> Dont have any account? <font color="#DD1C1A">Register</font></string>
     <string name="login"> Already have an account? <font color="#1363DF">Login Here</font></string>
 </resources>
