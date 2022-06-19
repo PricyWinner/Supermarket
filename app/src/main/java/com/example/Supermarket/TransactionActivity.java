@@ -31,7 +31,7 @@ public class TransactionActivity extends AppCompatActivity {
         dbhelper = new DatabaseHelper(this);
 
         bottom_navigation = findViewById(R.id.bottom_navigation);
-        bottom_navigation.setSelectedItemId(R.id.cart);
+        bottom_navigation.setSelectedItemId(R.id.transaction);
 
         bottom_navigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

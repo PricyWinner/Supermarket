@@ -284,7 +284,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int tempID, tempPrice, tempUserID, tempQuantity, tempTransactionID, tempTotalPrice;
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT mi.ItemID, mi.ItemName, mi.ItemDescription, mi.ItemPrice, mi.ItemCategory, mi.ItemImage, mt.UserID, Quantity, TransactionDate, mt.TransactionID, SUM(ItemPrice * Quantity) TotalPrice FROM MsTransaction mt JOIN MsItem mi ON mt.ItemID = mi.ItemID WHERE mt.UserID = " + UserID + " GROUP BY mt.TransactionID", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT mi.ItemID, mi.ItemName, mi.ItemDescription, mi.ItemPrice, mi.ItemCategory, mi.ItemImage, mt.UserID, SUM(Quantity) Quantity, TransactionDate, mt.TransactionID, SUM(ItemPrice * Quantity) TotalPrice FROM MsTransaction mt JOIN MsItem mi ON mt.ItemID = mi.ItemID WHERE mt.UserID = " + UserID + " GROUP BY mt.TransactionID", null);
         cursor.moveToFirst();
 
         if(cursor.getCount() > 0){

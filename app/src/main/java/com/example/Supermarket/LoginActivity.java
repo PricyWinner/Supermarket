@@ -1,7 +1,5 @@
 package com.example.Supermarket;
 
-import static Services.UserServices.createUserData;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -31,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         Button login = findViewById(R.id.login);
         Button register = findViewById(R.id.register);
         dbhelper = new DatabaseHelper(this);
-        createUserData();
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,26 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                     }else{
                         Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();}
-
-
-
-//                    for(int i = 0; i < listUser.size(); i++){
-//                        if(listUser.get(i).getUserEmailAddress().equalsIgnoreCase(email)){
-//                            if(listUser.get(i).getUserPassword().equals(password)){
-//                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-////                                intent.putExtra("userId", listUser.get(i).getUserId());
-//                                UserServices.currentUser = listUser.get(i);
-//                                startActivity(intent);
-//                                finish();
-//                            } else {
-//                                Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
-//                            }
-
-//                            break;
-//                        } else {
-//                            if(i == listUser.size() - 1){
-//                                Toast.makeText(LoginActivity.this, "Email not found", Toast.LENGTH_SHORT).show();
-//                            }
                         }
                     }
                 }

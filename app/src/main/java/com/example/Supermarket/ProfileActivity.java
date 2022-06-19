@@ -19,7 +19,6 @@ import Models.User;
 import Services.UserServices;
 
 public class ProfileActivity extends AppCompatActivity {
-//    private List<User> listUser = UserServices.listUser;
     private User currentUser = UserServices.currentUser;
     BottomNavigationView bottom_navigation;
     @Override
@@ -28,9 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         int userId = getIntent().getIntExtra("userId", 0);
-//        UserServices datas = (UserServices) getApplicationContext();
-//        User user = datas.getUser(userId);
-//        List<User> listUser = getListUser();
+
 
         TextView tvEmail = findViewById(R.id.email);
         TextView tvUsername = findViewById(R.id.tvUsername);

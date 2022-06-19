@@ -30,7 +30,6 @@ public class GridAdapter extends BaseAdapter {
     public GridAdapter(Context context, String[] category) {
         this.context = context;
         this.category = category;
-//        Log.wtf("test", category[0]);
     }
 
     @Override
@@ -50,7 +49,6 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        Log.wtf("test", category[0]);
         if(inflater == null){
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
@@ -62,12 +60,10 @@ public class GridAdapter extends BaseAdapter {
         TextView tv_desc = convertView.findViewById(R.id.tv_item_desc);
         TextView tv_price = convertView.findViewById(R.id.tv_item_price);
         ImageView iv_image = convertView.findViewById(R.id.iv_image);
-//        Log.wtf("test", category[position]);
 
         tv_title.setText(items.get(position).getTitle());
         tv_desc.setText(items.get(position).getDescription());
         Picasso.with(context).load(items.get(position).getImage()).into(iv_image);
-//        iv_image.setImageResource(R.drawable.noimage);
 
         int price = items.get(position).getPrice();
         String priceText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(price));

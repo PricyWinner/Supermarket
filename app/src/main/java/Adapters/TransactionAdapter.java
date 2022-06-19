@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.Supermarket.R;
 import com.example.Supermarket.TransactionActivity;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import Models.Transaction;
 
@@ -66,8 +68,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         int totalPrice = transactionArrayList.get(position).getTotalPrice();
         String transactionDate = transactionArrayList.get(position).getTransactionDate();
 
-        viewHolder.tv_transaction_quantity.setText(Integer.toString(totalQuantity));
-        viewHolder.tv_transaction_totalPrice.setText(Integer.toString(totalPrice));
+        String priceText = "Total: Rp" + (NumberFormat.getNumberInstance(Locale.US).format(totalPrice));
+        String quantityText = "Total Quantity: " + Integer.toString(totalQuantity);
+
+
+        viewHolder.tv_transaction_quantity.setText(quantityText);
+        viewHolder.tv_transaction_totalPrice.setText(priceText);
         viewHolder.tv_transactionDate.setText(transactionDate);
         viewHolder.tv_transactionID.setText(Integer.toString(transactionID));
     }

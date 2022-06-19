@@ -1,6 +1,10 @@
+//Kelompok 9:
+//  - 2440014225 - Katriel Larissa Wiguna
+//  - 2440015972 - Alexander Imanuel Iman
+//  - 2440019541 - Samuel Poris
+
 package com.example.Supermarket;
 
-import static Services.UserServices.createUserData;
 import static Services.UserServices.currentUser;
 
 import androidx.annotation.NonNull;
@@ -34,31 +38,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int userId;
     private ArrayList<Item> listItem = ItemService.itemList;
     private ArrayList<Item.Category> category = ItemService.category;
-//    ActivityMainBinding binding;
     SearchView searchView;
     Button btn_sayur, btn_daging, btn_dairy, btn_bumbu, btn_cart;
     BottomNavigationView bottom_navigation;
 
-//    String[] category = {"sayur dan buah", "daging dan seafood", "dairy", "bumbu dapur"};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-//        searchView = (SearchView) findViewById(R.id.searchbar);
         if(ItemService.itemList.isEmpty()){
             ItemService.generateItemData();
         }
 
-//        Log.wtf("oncreate home", Integer.toString(currentUser.getUserId()));
         btn_sayur = (Button) findViewById(R.id.btn_sayur);
         btn_daging = (Button) findViewById(R.id.btn_daging);
         btn_dairy = (Button) findViewById(R.id.btn_dairy);
         btn_bumbu = (Button) findViewById(R.id.btn_bumbu);
-//        btn_cart = (Button) findViewById(R.id.btn_cart);
 
-//        btn_cart.setOnClickListener(this);
         btn_sayur.setOnClickListener(this);
         btn_daging.setOnClickListener(this);
         btn_dairy.setOnClickListener(this);
@@ -93,11 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent;
@@ -136,10 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.wtf("onclick", category.get(0).getCategory_name());
                 startActivity(intent4);
                 break;
-//            case R.id.btn_cart:
-//                Intent intent5 = new Intent(this, CartActivity.class);
-//                startActivity(intent5);
-//                break;
         }
     }
 }

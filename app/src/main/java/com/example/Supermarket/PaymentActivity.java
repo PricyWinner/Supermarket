@@ -39,11 +39,10 @@ public class PaymentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new CartAdapter(getApplicationContext()));
 
-//        List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
         int totalPrice = 0;
         for (int i = 0; i<userCartList.size(); i++) {
            totalPrice =   totalPrice + (userCartList.get(i).getItem().getPrice() * userCartList.get(i).getCount());
-//            Log.wtf("test", Integer.toString(totalPrice));
+
         }
         tv_totalPrice.setText("Total Price: " + "Rp." + Integer.toString(totalPrice));
         btn_checkout.setOnClickListener((View v) -> {
@@ -54,7 +53,7 @@ public class PaymentActivity extends AppCompatActivity {
             if(dbhelper.checkIfTransactionExist(UserServices.currentUser.getUserId())){
                 Log.wtf("Transaction", "exist");
                 transactionID = dbhelper.getLastTransactionID();
-//                Log.wtf("LastTransactionID", Integer.toString(transactionID));
+
             }else{ //data exist
                 Log.wtf("Transaction", "not exist");
                 transactionID = 0;
@@ -64,8 +63,7 @@ public class PaymentActivity extends AppCompatActivity {
                 dbhelper.insertToTransaction(transactionID+1, userCartList.get(i).getItem().getId(), userCartList.get(i).getCount(), userCartList.get(i).getUserID(), currentDateTime);
             }
             Log.wtf("beforeDelete", dbhelper.getUserCart(UserServices.currentUser.getUserId()).toString());
-//            Log.wtf("beforeDelete", );
-//            dbhelper.deleteUserTransaction(UserServices.currentUser.getUserId());
+
             dbhelper.removeCartAfterTransaction(UserServices.currentUser.getUserId());
             Log.wtf("afterdelete", dbhelper.getUserCart(UserServices.currentUser.getUserId()).toString());
             Toast toast = Toast.makeText(getApplicationContext(), "checkout successful", Toast.LENGTH_SHORT);

@@ -70,11 +70,6 @@
             android:id="@+id/btn_addTOCart"
             android:text="Add to Cart"/>
 
-        <Button
-            android:id="@+id/btn_BuyNow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buy now" />
     </LinearLayout>
 
 </LinearLayout>

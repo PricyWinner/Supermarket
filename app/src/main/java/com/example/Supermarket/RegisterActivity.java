@@ -45,9 +45,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = etPassword.getText().toString();
                 String phoneNumber = etPhoneNumber.getText().toString();
 
-//                UserServices datas = (UserServices) getApplicationContext();
-//                List<User> listUser = datas.getListUser();
-
                 boolean error = false;
 
                 if(email.isEmpty()){
@@ -70,26 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
                     error = true;
                     etPhoneNumber.setError("Phone number couldn't be empty");
                 }
-
-//                for(int i = 0; i < listUser.size(); i++){
-//                    boolean exist = false;
-//
-//                    if(listUser.get(i).getUserName().equalsIgnoreCase(username)){
-//                        error = true;
-//                        exist = true;
-//                        etUsername.setError("Username is already exist");
-//                    }
-//
-//                    if (listUser.get(i).getUserEmailAddress().equalsIgnoreCase(email)){
-//                        error = true;
-//                        exist = true;
-//                        etEmail.setError("Email is already exist");
-//                    }
-//
-//                    if(exist){
-//                        break;
-//                    }
-//                }
 
                 if (dbhelper.checkIfUsernameExists(username) || dbhelper.checkIfEmailAddressExists(email)) {
                     if (dbhelper.checkIfUsernameExists(username)) {
@@ -115,8 +92,6 @@ public class RegisterActivity extends AppCompatActivity {
                 if(error){
                     Toast.makeText(RegisterActivity.this, "Please check your username and password inputs", Toast.LENGTH_SHORT).show();
                 } else {
-//                    int lastId = listUser.get(listUser.size()-1).getUserId();
-//                    listUser.add(new User(listUser.size()-1, email, username, password));
                     dbhelper.insertUser(email, username, phoneNumber, password);
                     Toast.makeText(getApplicationContext(), "Account created. Please sign in", Toast.LENGTH_SHORT).show();
                     finish();
