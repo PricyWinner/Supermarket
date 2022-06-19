@@ -9,9 +9,11 @@ import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Models.CartItem;
 import Models.Item;
+import Models.Transaction;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private final static String database_name = "SupermarketDB";
@@ -35,7 +37,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(ItemID) REFERENCES MsItem(ItemID) ON DELETE CASCADE ON UPDATE CASCADE)";
         sqLiteDatabase.execSQL(query);
 
-        query  = "CREATE TABLE MsTransaction(ID INTEGER PRIMARY KEY AUTOINCREMENT, TransactionID, ItemID, " +
+        query  = "CREATE TABLE MsTransaction(ID INTEGER PRIMARY KEY AUTOINCREMENT, TransactionID, ItemID, UserID, Quantity, TransactionDate," +
+                "FOREIGN KEY(UserID) REFERENCES MsCart(UserID) ON DELETE CASCADE ON UPDATE CASCADE," +
                 "FOREIGN KEY(ItemID) REFERENCES MsItem(ItemID) ON DELETE CASCADE ON UPDATE CASCADE)";
         sqLiteDatabase.execSQL(query);
 
@@ -246,13 +249,78 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return temp;
     }
-//    public static void deleteUser(int userID){
-////        String table = "beaconTable";
-//        String whereClause = "_id=?";
-//
-//        String[] whereArgs = new String[] { String.valueOf(userID) };
-//        DBHelper.db.delete(TABLE_NAME, whereClause, whereArgs);
-//    }
+
+    public Boolean checkIfTransactionExist(int UserID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM MsTransaction WHERE UserID = " + UserID, null);
+        int cur = cursor.getCount();
+        cursor.close();
+        return cur > 0;
+    }
+    public int getLastTransactionID(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM MsTransaction ORDER BY ID DESC LIMIT 1", null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(cursor.getColumnIndexOrThrow("TransactionID"));
+        cursor.close();
+        return count;
+    }
+    public void insertToTransaction(int TransactionID, int ItemID, int Quantity, int UserID, Date TransactionDate){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TransactionID", TransactionID);
+        contentValues.put("ItemID", ItemID);
+        contentValues.put("Quantity", Quantity);
+        contentValues.put("UserID", UserID);
+        contentValues.put("TransactionDate", TransactionDate.toString());
+        sqLiteDatabase.insert("MsTransaction", null, contentValues);
+        sqLiteDatabase.close();
+    }
+    public ArrayList<Transaction> getUserTransaction(int UserID){
+        ArrayList<Transaction> temp = new ArrayList<>();
+        Item tempitem;
+
+        String tempName, tempDescription, tempCategory, tempImage, tempDate;
+        int tempID, tempPrice, tempUserID, tempQuantity, tempTransactionID, tempTotalPrice;
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT mi.ItemID, mi.ItemName, mi.ItemDescription, mi.ItemPrice, mi.ItemCategory, mi.ItemImage, mt.UserID, Quantity, TransactionDate, mt.TransactionID, SUM(ItemPrice * Quantity) TotalPrice FROM MsTransaction mt JOIN MsItem mi ON mt.ItemID = mi.ItemID WHERE mt.UserID = " + UserID + " GROUP BY mt.TransactionID", null);
+        cursor.moveToFirst();
+
+        if(cursor.getCount() > 0){
+            do {
+
+                tempID = cursor.getInt(cursor.getColumnIndexOrThrow("ItemID"));
+                tempName = cursor.getString(cursor.getColumnIndexOrThrow("ItemName"));
+                tempDescription = cursor.getString(cursor.getColumnIndexOrThrow("ItemDescription"));
+                tempPrice = cursor.getInt(cursor.getColumnIndexOrThrow("ItemPrice"));
+                tempCategory = cursor.getString(cursor.getColumnIndexOrThrow("ItemCategory"));
+                tempImage = cursor.getString(cursor.getColumnIndexOrThrow("ItemImage"));
+                tempUserID = cursor.getInt(cursor.getColumnIndexOrThrow("UserID"));
+                tempQuantity = cursor.getInt(cursor.getColumnIndexOrThrow("Quantity"));
+                tempDate = cursor.getString(cursor.getColumnIndexOrThrow("TransactionDate"));
+                tempTransactionID = cursor.getInt(cursor.getColumnIndexOrThrow("TransactionID"));
+                tempTotalPrice = cursor.getInt(cursor.getColumnIndexOrThrow("TotalPrice"));
+
+                tempitem = new Item(tempID, tempName, tempDescription, tempPrice, tempCategory, tempImage);
+                temp.add(new Transaction(tempTransactionID,tempUserID, tempitem, tempQuantity, tempTotalPrice,tempDate));
+
+                cursor.moveToNext();
+            }while(!cursor.isAfterLast());
+        }
+        cursor.close();
+        return temp;
+    }
+    public void deleteUserTransaction(int UserID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("DELETE FROM  MsCart WHERE UserID = " + UserID, null);
+        cursor.close();
+    }
+    public void removeCartAfterTransaction(int UserID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete("MsCart", "UserID = " + UserID, null);
+        sqLiteDatabase.close();
+    }
 }
 
 

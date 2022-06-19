@@ -2,33 +2,24 @@ package Adapters;
 
 import static com.example.Supermarket.CartActivity.userCartList;
 
-import static Services.ItemService.LoadImageFromURL;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Supermarket.R;
-import com.squareup.picasso.Picasso;
 
-import java.text.BreakIterator;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import Models.CartItem;
 import Services.UserServices;
-import Store.Store;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<CartItem> cartItems;
@@ -46,7 +37,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private Drawable image;
     public static class ViewHolder extends RecyclerView.ViewHolder{
-//        public static tv_title;
+        //        public static tv_title;
         private final TextView tv_title, tv_price, tv_quantity, tv_totalPrice;
         private final ImageView imageView;
 
@@ -67,8 +58,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     }
 
-    public CartAdapter() {
+    public CartAdapter(Context ctx) {
         this.cartItems = userCartList;
+        this.context = ctx;
         System.out.println(UserServices.currentUser.getUserId());
         System.out.println(cartItems);
     }
@@ -89,9 +81,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         String priceTotalText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(priceTotal));
         String qty = "Qty: " + Integer.toString(cartItems.get(position).getCount());
 //        viewHolder.imageView.setImageResource(R.drawable.noimage);
-        Picasso.with(getContext()).load(cartItems.get(position).getItem().getImage()).into(viewHolder.imageView);
+//        Picasso.with(context).load(cartItems.get(position).getItem().getImage()).into(viewHolder.imageView);
 //        image = LoadImageFromURL(cartItems.get(position).getItem().getImage());
-        viewHolder.imageView.setImageDrawable(image);
+//        viewHolder.imageView.setImageDrawable(image);
         viewHolder.tv_title.setText(cartItems.get(position).getItem().getTitle());
 //        viewHolder.tv_price.setText(Integer.toString(cartItems.get(position).getItem().getPrice()));
         viewHolder.tv_price.setText(priceText);

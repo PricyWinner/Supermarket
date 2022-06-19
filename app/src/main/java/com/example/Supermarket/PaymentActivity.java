@@ -14,29 +14,30 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Date;
 
 import Adapters.CartAdapter;
-import Models.CartItem;
+import Adapters.TransactionAdapter;
 import Services.UserServices;
-import Store.Store;
 
 public class PaymentActivity extends AppCompatActivity {
     Button btn_checkout;
     TextView tv_totalPrice;
-
+    private DatabaseHelper dbhelper;
+    private int transactionID = 0;
+    private Date currentDateTime = new Date();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        dbhelper = new DatabaseHelper(this);
+
         btn_checkout = (Button) findViewById(R.id.btn_checkout_payment);
         tv_totalPrice = (TextView) findViewById(R.id.tv_totalPrice);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewpayment);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new CartAdapter());
+        recyclerView.setAdapter(new CartAdapter(getApplicationContext()));
 
 //        List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
         int totalPrice = 0;
@@ -47,6 +48,26 @@ public class PaymentActivity extends AppCompatActivity {
         tv_totalPrice.setText("Total Price: " + "Rp." + Integer.toString(totalPrice));
         btn_checkout.setOnClickListener((View v) -> {
             Intent intent = new Intent(this, MainActivity.class);
+
+
+            //data exist
+            if(dbhelper.checkIfTransactionExist(UserServices.currentUser.getUserId())){
+                Log.wtf("Transaction", "exist");
+                transactionID = dbhelper.getLastTransactionID();
+//                Log.wtf("LastTransactionID", Integer.toString(transactionID));
+            }else{ //data exist
+                Log.wtf("Transaction", "not exist");
+                transactionID = 0;
+            }
+
+            for(int i = 0; i<userCartList.size();i++){
+                dbhelper.insertToTransaction(transactionID+1, userCartList.get(i).getItem().getId(), userCartList.get(i).getCount(), userCartList.get(i).getUserID(), currentDateTime);
+            }
+            Log.wtf("beforeDelete", dbhelper.getUserCart(UserServices.currentUser.getUserId()).toString());
+//            Log.wtf("beforeDelete", );
+//            dbhelper.deleteUserTransaction(UserServices.currentUser.getUserId());
+            dbhelper.removeCartAfterTransaction(UserServices.currentUser.getUserId());
+            Log.wtf("afterdelete", dbhelper.getUserCart(UserServices.currentUser.getUserId()).toString());
             Toast toast = Toast.makeText(getApplicationContext(), "checkout successful", Toast.LENGTH_SHORT);
             toast.show();
             startActivity(intent);

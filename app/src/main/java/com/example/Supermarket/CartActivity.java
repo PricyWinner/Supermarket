@@ -11,20 +11,16 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import Adapters.CartAdapter;
+import Adapters.TransactionAdapter;
 import Models.CartItem;
-import Services.ItemService;
 import Services.UserServices;
 import Store.Store;
 
@@ -49,7 +45,7 @@ public class CartActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new CartAdapter());
+        recyclerView.setAdapter(new CartAdapter(getApplicationContext()));
 
         Log.wtf("cart", userCartList.toString());
         if(userCartList.isEmpty()){
