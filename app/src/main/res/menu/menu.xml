@@ -16,7 +16,7 @@
 
     <item
         android:id="@+id/transaction"
-        android:title="transaction"
+        android:title="Transaction"
         android:icon="@drawable/ic_baseline_history_24"/>
 
     <item

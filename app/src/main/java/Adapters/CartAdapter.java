@@ -1,5 +1,6 @@
 package Adapters;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Supermarket.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.BreakIterator;
 import java.text.NumberFormat;
@@ -26,8 +28,16 @@ import Store.Store;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<CartItem> cartItems;
+    Context context;
 
-//    private ArrayList<Product> products;
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+    //    private ArrayList<Product> products;
 //    private OnNoteListener OnNoteViewListener;
 
     private Drawable image;
@@ -69,11 +79,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.imageView.setImageResource(R.drawable.noimage);
+        int price = cartItems.get(position).getItem().getPrice();
+        String priceText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(price));
+        int priceTotal = cartItems.get(position).getItem().getPrice() * cartItems.get(position).getCount();
+        String priceTotalText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(priceTotal));
+        String qty = "Qty: " + Integer.toString(cartItems.get(position).getCount());
+//        viewHolder.imageView.setImageResource(R.drawable.noimage);
+        Picasso.with(context).load(cartItems.get(position).getItem().getImage()).into(viewHolder.imageView);
         viewHolder.tv_title.setText(cartItems.get(position).getItem().getTitle());
-        viewHolder.tv_price.setText(Integer.toString(cartItems.get(position).getItem().getPrice()));
-        viewHolder.tv_quantity.setText(Integer.toString(cartItems.get(position).getCount()));
-        viewHolder.tv_totalPrice.setText(Integer.toString(cartItems.get(position).getItem().getPrice() * cartItems.get(position).getCount()));
+//        viewHolder.tv_price.setText(Integer.toString(cartItems.get(position).getItem().getPrice()));
+        viewHolder.tv_price.setText(priceText);
+        viewHolder.tv_quantity.setText(qty);
+//        viewHolder.tv_totalPrice.setText(Integer.toString(cartItems.get(position).getItem().getPrice() * cartItems.get(position).getCount()));
+        viewHolder.tv_totalPrice.setText(priceTotalText);
     }
 
     @Override

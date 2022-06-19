@@ -1,6 +1,6 @@
 package com.example.Supermarket;
 
-import static Services.ItemService.getSelectedCategoryItems;
+//import static Services.ItemService.getSelectedCategoryItems;
 import static Services.ItemService.selectedItem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +26,11 @@ import Services.ItemService;
 public class DetailCategory extends AppCompatActivity {
 
 //    ActivityMainBinding binding;
+    public static ArrayList<Models.Item> items = new ArrayList<>();
     private ArrayList<Item.Category> categories = ItemService.category;
-    private ArrayList<Item> items = ItemService.selectedCategoryItems;
+//    private ArrayList<Item> items = ItemService.selectedCategoryItems;
+//    private ArrayList<Item> items = new ArrayList<>();
+    DatabaseHelper dbhelper;
     int selected_category;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,12 @@ public class DetailCategory extends AppCompatActivity {
         getSupportActionBar().setTitle(categories.get(selected_category).getCategory_name());
 
 
-        getSelectedCategoryItems(selected_category);
+//        getSelectedCategoryItems(selected_category);
+
+        items.clear();
+        dbhelper = new DatabaseHelper(this);
+        items = dbhelper.getCategoryItems(categories.get(selected_category).getCategory_name());
+
         Log.wtf("category", categories.get(selected_category).getCategory_name());
 //        binding = ActivityMainBinding.inflate(getLayoutInflater());
         String[] category = {"sayur", "buah", "bumbu"};

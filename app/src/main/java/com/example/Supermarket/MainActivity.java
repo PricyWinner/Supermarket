@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SearchView searchView;
     Button btn_sayur, btn_daging, btn_dairy, btn_bumbu, btn_cart;
     BottomNavigationView bottom_navigation;
+
 //    String[] category = {"sayur dan buah", "daging dan seafood", "dairy", "bumbu dapur"};
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,10 +77,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(goToCart);
                     overridePendingTransition(0,0);
                     return true;
-                }
-                else if(item.getItemId() == R.id.profile){
+                }else if(item.getItemId() == R.id.profile){
                     Intent goToProfile = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(goToProfile);
+                    overridePendingTransition(0,0);
+                    return true;
+                }else if(item.getItemId() == R.id.transaction){
+                    Intent goToTransaction = new Intent(getApplicationContext(), TransactionActivity.class);
+                    startActivity(goToTransaction);
                     overridePendingTransition(0,0);
                     return true;
                 }

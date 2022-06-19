@@ -1,6 +1,7 @@
 package Adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.Supermarket.DetailCategory;
 import com.example.Supermarket.R;
+import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import Models.Item;
 import Services.ItemService;
@@ -20,7 +25,7 @@ import Services.ItemService;
 public class GridAdapter extends BaseAdapter {
     Context context;
     String[] category;
-    private ArrayList<Item> items = ItemService.selectedCategoryItems;
+    private ArrayList<Item> items = DetailCategory.items;
     LayoutInflater inflater;
     public GridAdapter(Context context, String[] category) {
         this.context = context;
@@ -58,10 +63,15 @@ public class GridAdapter extends BaseAdapter {
         TextView tv_price = convertView.findViewById(R.id.tv_item_price);
         ImageView iv_image = convertView.findViewById(R.id.iv_image);
 //        Log.wtf("test", category[position]);
+
         tv_title.setText(items.get(position).getTitle());
         tv_desc.setText(items.get(position).getDescription());
-        iv_image.setImageResource(R.drawable.noimage);
-        tv_price.setText(Integer.toString(items.get(position).getPrice()));
+        Picasso.with(context).load(items.get(position).getImage()).into(iv_image);
+//        iv_image.setImageResource(R.drawable.noimage);
+
+        int price = items.get(position).getPrice();
+        String priceText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(price));
+        tv_price.setText(priceText);
 
         return convertView;
     }

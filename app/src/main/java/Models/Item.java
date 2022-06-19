@@ -5,15 +5,17 @@ public class Item {
     private String title;
     private String description;
     private int price;
-    private Category category;
+    private String category;
+    private String image;
 
 
-    public Item(int id, String title, String description, int price, Category category) {
+    public Item(int id, String title, String description, int price, String category, String image) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.price = price;
         this.category = category;
+        this.image = image;
     }
 
     @Override
@@ -27,11 +29,11 @@ public class Item {
                 '}';
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -65,6 +67,15 @@ public class Item {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public static class Category{
