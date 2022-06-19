@@ -2,6 +2,7 @@ package com.example.Supermarket;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,16 @@ public class DetailItem extends AppCompatActivity {
     private TextView tv_title, tv_desc, tv_price, tv_totalPrice;
     private Button btn_minus, btn_plus, btn_buyNow, btn_addToCart;
     private EditText et_count;
+    Context context;
     private int count = 0;
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +55,8 @@ public class DetailItem extends AppCompatActivity {
         btn_minus = (Button) findViewById(R.id.btn_minus);
         btn_plus = (Button) findViewById(R.id.btn_plus);
         et_count = (EditText) findViewById(R.id.et_count);
-        imageView.setImageResource(R.drawable.noimage);
+//        imageView.setImageResource(R.drawable.noimage);
+
 
         btn_addToCart = (Button)findViewById(R.id.btn_addTOCart);
         btn_buyNow = (Button)findViewById(R.id.btn_BuyNow);
@@ -67,6 +80,7 @@ public class DetailItem extends AppCompatActivity {
         tv_title.setText(selectedItems.getTitle());
         tv_desc.setText(selectedItems.getDescription());
         tv_price.setText(Integer.toString(selectedItems.getPrice()));
+        Picasso.with(context).load(String.valueOf(selectedItems)).into(imageView);
 
 
 

@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private final static String database_name = "SupermarketDB";
     private final static SQLiteDatabase.CursorFactory factory = null;
@@ -30,6 +33,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         query  = "CREATE TABLE MsTransaction(ID INTEGER PRIMARY KEY AUTOINCREMENT, TransactionID, ItemID, " +
                 "FOREIGN KEY(ItemID) REFERENCES MsItem(ItemID) ON DELETE CASCADE ON UPDATE CASCADE)";
+        sqLiteDatabase.execSQL(query);
+
+        query = "INSERT INTO MsItem(ItemName, ItemDescription, ItemPrice, ItemCategory, ItemImage) VALUES " +
+                "('Greenfields Fresh Milk', '1 liter', 30250, 'Dairy', 'https://cdn.shopify.com/s/files/1/0369/8321/0116/products/08_553x.jpg?v=1649744908')," +
+                "('Brookfarm Soya Milk', '946ml', 40250, 'Dairy', 'https://sukandadjaya.com/wp-content/uploads/2016/06/BF-Soya-Depan.png')," +
+                "('Cimory Fresh Milk Plain', '950ml', 28500, 'Dairy', 'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//89/MTA-11238317/cimory_cimory-fresh-milk-plain-950ml_full01.jpg')," +
+                "('Cimory Yogurt Drink Lf Blueberry', '250ml', 9000, 'Dairy', 'https://cf.shopee.co.id/file/892df5bd0927ab418e592dc72a1f8f89')," +
+                "('Biokul Stir Yght Apricot', '1 liter', 88500, 'Dairy', 'https://sukandadjaya.com/wp-content/uploads/2016/08/152713-copy.png')," +
+                "('Kraft Cheese Slice Plain', '5 slices', 12500, 'Dairy', 'https://images.tokopedia.net/img/cache/700/product-1/2020/5/13/66565449/66565449_aa57bba0-2ee8-4752-b1e5-5229360bc61f_600_600')," +
+                "('Cumi Ring', '500gr', 66900, 'Daging dan Seafood', 'https://cdn.istyle.im/images/product/web/31/41/07/00/0/000000074131_01_800.jpg.webp')," +
+                "('Teri Padang Pack', '150gr', 35900, 'Daging dan Seafood', 'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//105/MTA-25885455/oem_teri-padang-pack-150-gr_full01.jpg')," +
+                "('Jambal Roti Pack', '250gr', 66500, 'Daging dan Seafood', 'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//101/MTA-13708585/oem_oem_full01.jpg')," +
+                "('Ayam Broiler', '800gr', 35000, 'Daging dan Seafood', 'https://cf.shopee.co.id/file/c6d216046d8de3ed849cdc9e6c77802e')," +
+                "('Ayam Kepala', '460gr', 14900, 'Daging dan Seafood', 'https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/1/13/0d06f73e-b151-40f7-8091-c98a0894e51b.jpg')," +
+                "('Peda Merah Pack', '250gr', 36900, 'Daging dan Seafood', 'https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/12/16/a6fa3edf-66e0-47b5-ad7e-c023d7564283.jpg')," +
+                "('Edamame Pack', '1kg', 26500, 'Sayur dan Buah', 'https://cf.shopee.co.id/file/844afc53770d4387bf611637538b53b4')," +
+                "('Brown Shimeji Mushroom Pack', '150gr', 16900, 'Sayur dan Buah', 'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//102/MTA-36303887/buna_shimeji_brown_shimeji_mushroom_pack_150_gr_full02_ltn5ano9.jpg')," +
+                "('Caisim Ikat', '150gr', 2500, 'Sayur dan Buah', 'https://cf.shopee.co.id/file/14b125f228a2e5a1d55b2ca75c417290')," +
+                "('Sweet Pear', '430gr', 15370, 'Sayur dan Buah', 'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//92/MTA-23742263/no-brand_sweet-pear-480-gr_full01.jpg')," +
+                "('Pear Xiang Lie', '530gr', 30690, 'Sayur dan Buah', 'https://images.tokopedia.net/img/cache/500-square/hDjmkQ/2021/4/25/434ab895-a37a-469b-b2d4-ea02c8ef3639.jpg')," +
+                "('Sunpride Pisang Cavendish', '1050gr', 23050, 'Sayur dan Buah', 'https://images.tokopedia.net/img/cache/700/product-1/2020/9/11/1170277483/1170277483_3443a92f-e017-40c0-bb43-112ccbe24c74_500_500.jpg')," +
+                "('Abc Kecap Manis Refill', '700ml', 19900, 'Bumbu Dapur', 'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//112/MTA-9786748/abc_abc_kecap_manis_700ml_full01_l0mm9csp.jpg')," +
+                "('Delmonte Chili Xtra Hot Pouch', '1kg', 23690, 'Bumbu Dapur', 'https://images.tokopedia.net/img/cache/700/VqbcmM/2020/9/22/87d81396-f171-4d79-b18a-03ac629b919a.jpg')," +
+                "('Mamasuka Bon Nori Original', '30gr', 16990, 'Bumbu Dapur', 'https://assets.klikindomaret.com/share/20102077_1.jpg')," +
+                "('Heinz Korean Gourmet Chili', '325gr', 20190, 'Bumbu Dapur', 'https://cf.shopee.co.id/file/4f41be2a227f5410a9101458d44e156e')," +
+                "('Kewpie Salad Dressing Caesar', '200ml', 36290, 'Bumbu Dapur', 'https://cf.shopee.co.id/file/8be48f04ece43254cbbc733c266c7dc5')," +
+                "('Maestro Saus Tiram', '270ml', 16790, 'Bumbu Dapur', 'https://cf.shopee.co.id/file/3a3935c7e7f1eb4c42795c9b757e2fec')";
         sqLiteDatabase.execSQL(query);
     }
 
@@ -102,6 +132,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         user = new Models.User(tempUserID, tempEmailAddress, tempUsername, tempPhoneNumber, tempPassword);
         cursor.close();
         return user;
+    }
+
+    public ArrayList<Models.Item> getCategoryItems(String category){
+        ArrayList<Models.Item> item = new ArrayList<>();
+        Models.Item tempitem;
+        String tempName, tempDescription, tempCategory, tempImage;
+        int tempID, tempPrice;
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM MsItem WHERE ItemCategory = ?", new String[]{category});
+        cursor.moveToFirst();
+
+        if(cursor.getCount() > 0){
+            do {
+                tempID = cursor.getInt(cursor.getColumnIndexOrThrow("ItemID"));
+                tempName = cursor.getString(cursor.getColumnIndexOrThrow("ItemName"));
+                tempDescription = cursor.getString(cursor.getColumnIndexOrThrow("ItemDescription"));
+                tempPrice = cursor.getInt(cursor.getColumnIndexOrThrow("ItemPrice"));
+                tempCategory = cursor.getString(cursor.getColumnIndexOrThrow("ItemCategory"));
+                tempImage = cursor.getString(cursor.getColumnIndexOrThrow("ItemImage"));
+
+                tempitem = new Models.Item(tempID, tempName, tempDescription, tempPrice, tempCategory, tempImage);
+                item.add(tempitem);
+
+                cursor.moveToNext();
+            }while(!cursor.isAfterLast());
+        }
+        cursor.close();
+        return item;
     }
 }
 
