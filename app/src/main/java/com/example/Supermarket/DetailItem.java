@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import Models.CartItem;
@@ -77,10 +79,15 @@ public class DetailItem extends AppCompatActivity {
             btn_addToCart.setText("Add to cart");
         }
 
+        int price = selectedItems.getPrice();
+        String priceText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(price));
+
         tv_title.setText(selectedItems.getTitle());
         tv_desc.setText(selectedItems.getDescription());
-        tv_price.setText(Integer.toString(selectedItems.getPrice()));
-        Picasso.with(context).load(String.valueOf(selectedItems)).into(imageView);
+//        tv_price.setText(Integer.toString(selectedItems.getPrice()));
+        tv_price.setText(priceText);
+        Picasso.with(context).load(String.valueOf(selectedItems.getImage())).into(imageView);
+
 
 
 
@@ -122,9 +129,12 @@ public class DetailItem extends AppCompatActivity {
         });
     }
     public void plus() {
-            count = count + 1;
-            tv_totalPrice.setText(Integer.toString(selectedItems.getPrice() * count));
-            et_count.setText(Integer.toString(count));
+        count = count + 1;
+        int totalprice = selectedItems.getPrice() * count;
+        String totalPriceText = "Total: Rp" + (NumberFormat.getNumberInstance(Locale.US).format(totalprice));
+//        tv_totalPrice.setText(Integer.toString(selectedItems.getPrice() * count));
+        tv_totalPrice.setText(totalPriceText);
+        et_count.setText(Integer.toString(count));
 //            System.out.println(selectedItems.getPrice() * count);
 
     }

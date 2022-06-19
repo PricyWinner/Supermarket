@@ -15,7 +15,9 @@ import com.example.Supermarket.DetailCategory;
 import com.example.Supermarket.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import Models.Item;
 import Services.ItemService;
@@ -67,7 +69,9 @@ public class GridAdapter extends BaseAdapter {
         Picasso.with(context).load(items.get(position).getImage()).into(iv_image);
 //        iv_image.setImageResource(R.drawable.noimage);
 
-        tv_price.setText(Integer.toString(items.get(position).getPrice()));
+        int price = items.get(position).getPrice();
+        String priceText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(price));
+        tv_price.setText(priceText);
 
         return convertView;
     }

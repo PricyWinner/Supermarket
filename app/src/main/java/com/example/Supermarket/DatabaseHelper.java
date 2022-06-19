@@ -162,6 +162,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return item;
     }
+
+    public void insertToCart(Integer UserID, Integer ItemID, Integer Quantity){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("UserID", UserID);
+        contentValues.put("ItemID", ItemID);
+        contentValues.put("Quantity", Quantity);
+        sqLiteDatabase.insert("MsCart", null, contentValues);
+        sqLiteDatabase.close();
+    }
 }
 
 

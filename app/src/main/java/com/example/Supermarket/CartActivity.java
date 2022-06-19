@@ -69,6 +69,11 @@ public class CartActivity extends AppCompatActivity {
                     startActivity(goToProfile);
                     overridePendingTransition(0,0);
                     return true;
+                }else if(item.getItemId() == R.id.transaction){
+                    Intent goToTransaction = new Intent(getApplicationContext(), TransactionActivity.class);
+                    startActivity(goToTransaction);
+                    overridePendingTransition(0,0);
+                    return true;
                 }
                 return false;
             }
