@@ -116,12 +116,19 @@ public class DetailItem extends AppCompatActivity {
                     finish();
                 }
             }else{
-                List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
-                Store.cartItems.remove(filteredList.get(0));
+                if(Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).count() > 0 ){
+                    List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
+                    Store.cartItems.remove(filteredList.get(0));
 
-                Toast toast = Toast.makeText(getApplicationContext(), "cart deleted", Toast.LENGTH_SHORT);
-                toast.show();
-                finish();
+                    Toast toast = Toast.makeText(getApplicationContext(), "cart deleted", Toast.LENGTH_SHORT);
+                    toast.show();
+                    finish();
+                }else{
+//                    et_count.setError("item count can't be empty");
+                    Toast toast = Toast.makeText(getApplicationContext(), "Item count can't be empty", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
             }
 
 
@@ -143,10 +150,10 @@ public class DetailItem extends AppCompatActivity {
 
         if(count == 0){
             count = 0;
-            tv_totalPrice.setText(Integer.toString(selectedItems.getPrice() * count));
+            tv_totalPrice.setText("Total: Rp" + Integer.toString(selectedItems.getPrice() * count));
         }else {
             count = count - 1;
-            tv_totalPrice.setText(Integer.toString(selectedItems.getPrice() * count));
+            tv_totalPrice.setText("Total: Rp" + Integer.toString(selectedItems.getPrice() * count));
             et_count.setText(Integer.toString(count));
         }
 
