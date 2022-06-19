@@ -5,9 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import Models.CartItem;
+import Models.Item;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private final static String database_name = "SupermarketDB";
@@ -163,6 +167,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return item;
     }
 
+//    public void insertToCart(Integer UserID, Integer ItemID, Integer Quantity){
+//        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put("UserID", UserID);
+//        contentValues.put("ItemID", ItemID);
+//        contentValues.put("Quantity", Quantity);
+//        sqLiteDatabase.insert("MsCart", null, contentValues);
+//        sqLiteDatabase.close();
+//    }
     public void insertToCart(Integer UserID, Integer ItemID, Integer Quantity){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -172,6 +185,74 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert("MsCart", null, contentValues);
         sqLiteDatabase.close();
     }
+
+    public void updateQuantity(int UserID, int ItemID, int Quantity){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String query = "UPDATE MsCart SET Quantity = " + Quantity + " WHERE UserID = " + UserID + " AND ItemID = " + ItemID;
+        sqLiteDatabase.execSQL(query);
+        sqLiteDatabase.close();
+    }
+
+    public void removeFromCart(int UserID, int ItemID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete("MsCart", "UserID = " + UserID + " AND ItemID = " + ItemID + " ", null);
+        sqLiteDatabase.close();
+    }
+    public int getCartCount(int UserID, int ItemID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM MsCart WHERE UserID = " + UserID + " AND ItemID = " + ItemID + " ", null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(cursor.getColumnIndexOrThrow("Quantity"));
+        Log.wtf("getcount", Integer.toString(count));
+        cursor.close();
+        return count;
+    }
+    public Boolean checkIfCartExists(int UserID, int ItemID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM MsCart WHERE UserID = " + UserID + " AND ItemID = " + ItemID, null);
+        int cur = cursor.getCount();
+        cursor.close();
+        return cur > 0;
+    }
+
+    public ArrayList<CartItem> getUserCart(int UserID){
+        ArrayList<CartItem> temp = new ArrayList<>();
+        Item tempitem;
+
+        String tempName, tempDescription, tempCategory, tempImage;
+        int tempID, tempPrice, tempUserID, tempQuantity;
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM MsItem mi JOIN MsCart mc ON mi.ItemID = mc.ItemID WHERE UserID = " + UserID, null);
+        cursor.moveToFirst();
+
+        if(cursor.getCount() > 0){
+            do {
+                tempID = cursor.getInt(cursor.getColumnIndexOrThrow("ItemID"));
+                tempName = cursor.getString(cursor.getColumnIndexOrThrow("ItemName"));
+                tempDescription = cursor.getString(cursor.getColumnIndexOrThrow("ItemDescription"));
+                tempPrice = cursor.getInt(cursor.getColumnIndexOrThrow("ItemPrice"));
+                tempCategory = cursor.getString(cursor.getColumnIndexOrThrow("ItemCategory"));
+                tempImage = cursor.getString(cursor.getColumnIndexOrThrow("ItemImage"));
+                tempUserID = cursor.getInt(cursor.getColumnIndexOrThrow("UserID"));
+                tempQuantity = cursor.getInt(cursor.getColumnIndexOrThrow("Quantity"));
+
+                tempitem = new Item(tempID, tempName, tempDescription, tempPrice, tempCategory, tempImage);
+                temp.add(new CartItem(tempUserID, tempitem, tempQuantity));
+
+                cursor.moveToNext();
+            }while(!cursor.isAfterLast());
+        }
+        cursor.close();
+        return temp;
+    }
+//    public static void deleteUser(int userID){
+////        String table = "beaconTable";
+//        String whereClause = "_id=?";
+//
+//        String[] whereArgs = new String[] { String.valueOf(userID) };
+//        DBHelper.db.delete(TABLE_NAME, whereClause, whereArgs);
+//    }
 }
 
 

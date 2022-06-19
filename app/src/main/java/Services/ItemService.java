@@ -1,8 +1,12 @@
 package Services;
 
+import android.graphics.drawable.Drawable;
+
 import com.example.Supermarket.DatabaseHelper;
 
+import java.io.InputStream;
 import java.io.ObjectStreamException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import Models.CartItem;
@@ -47,4 +51,13 @@ public class ItemService {
 //            }
 //        }
 //    }
+public static Drawable LoadImageFromURL(String url) {
+    try {
+        InputStream inputStream = (InputStream) new URL(url).getContent();
+        Drawable image = Drawable.createFromStream(inputStream, "src name");
+        return image;
+    } catch (Exception e) {
+        return null;
+    }
+}
 }

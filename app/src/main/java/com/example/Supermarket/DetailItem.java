@@ -34,7 +34,7 @@ public class DetailItem extends AppCompatActivity {
     private EditText et_count;
     Context context;
     private int count = 0;
-
+    private DatabaseHelper dbhelper;
     public Context getContext() {
         return context;
     }
@@ -59,17 +59,17 @@ public class DetailItem extends AppCompatActivity {
         et_count = (EditText) findViewById(R.id.et_count);
 //        imageView.setImageResource(R.drawable.noimage);
 
-
+        dbhelper = new DatabaseHelper(this);
         btn_addToCart = (Button)findViewById(R.id.btn_addTOCart);
         btn_buyNow = (Button)findViewById(R.id.btn_BuyNow);
 
 
-        if(Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).count() > 0 ){
+        if(dbhelper.checkIfCartExists(UserServices.currentUser.getUserId(), selectedItems.getId())){
             btn_addToCart.setText("Update cart");
-            List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
-            count = filteredList.get(0).getCount();
-            tv_totalPrice.setText(Integer.toString(selectedItems.getPrice() * filteredList.get(0).getCount()));
-            et_count.setText(Integer.toString(filteredList.get(0).getCount()));
+//            List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
+            count = dbhelper.getCartCount(UserServices.currentUser.getUserId(), selectedItems.getId());
+//            tv_totalPrice.setText(Integer.toString(selectedItems.getPrice() * filteredList.get(0).getCount()));
+            et_count.setText(Integer.toString(count));
 //            System.out.println(Integer.toString(filteredList.get(0).getCount()));
 
         }
@@ -100,26 +100,28 @@ public class DetailItem extends AppCompatActivity {
 
         btn_addToCart.setOnClickListener((View v) -> {
             if(count != 0){
-                if(Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).count() > 0 ){
-                    List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
-                    filteredList.get(0).setCount(count);
+                if(dbhelper.checkIfCartExists(UserServices.currentUser.getUserId(), selectedItems.getId())){
+//                    List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
+//                    filteredList.get(0).setCount(count);
+                    dbhelper.updateQuantity(UserServices.currentUser.getUserId(),selectedItems.getId() ,count);
                     Toast toast = Toast.makeText(getApplicationContext(), "cart updated", Toast.LENGTH_SHORT);
                     toast.show();
 //                    System.out.println(Store.cartItems.toString());
                     finish();
 
                 }else {
-                    Store.cartItems.add(new CartItem(UserServices.currentUser.getUserId(), selectedItems, count));
+//                    Store.cartItems.add(new CartItem(UserServices.currentUser.getUserId(), selectedItems, count));
                     Toast toast = Toast.makeText(getApplicationContext(), "items added to cart", Toast.LENGTH_SHORT);
                     toast.show();
+                    dbhelper.insertToCart(UserServices.currentUser.getUserId(), selectedItems.getId(),count);
                     System.out.println(Store.cartItems.toString());
                     finish();
                 }
             }else{
-                if(Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).count() > 0 ){
-                    List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
-                    Store.cartItems.remove(filteredList.get(0));
-
+                if(dbhelper.checkIfCartExists(UserServices.currentUser.getUserId(), selectedItems.getId())){
+//                    List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getItem().getId() == selectedItems.getId() && i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
+//                    Store.cartItems.remove(filteredList.get(0));
+                    dbhelper.removeFromCart(UserServices.currentUser.getUserId(), selectedItems.getId());
                     Toast toast = Toast.makeText(getApplicationContext(), "cart deleted", Toast.LENGTH_SHORT);
                     toast.show();
                     finish();

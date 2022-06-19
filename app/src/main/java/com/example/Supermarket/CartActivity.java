@@ -18,9 +18,12 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import Adapters.CartAdapter;
+import Models.CartItem;
 import Services.ItemService;
 import Services.UserServices;
 import Store.Store;
@@ -30,24 +33,32 @@ public class CartActivity extends AppCompatActivity {
     BottomNavigationView bottom_navigation;
     TextView empty;
     Button btn_checkout;
+    private DatabaseHelper dbhelper;
+    public static ArrayList<CartItem> userCartList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         Log.wtf("cart", Store.cartItems.toString());
+
+        empty = (TextView) findViewById(R.id.tv_empty);
+        btn_checkout = (Button) findViewById(R.id.btn_checkout);
+        dbhelper = new DatabaseHelper(this);
+        userCartList = dbhelper.getUserCart(UserServices.currentUser.getUserId());
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new CartAdapter());
-        empty = (TextView) findViewById(R.id.tv_empty);
-        btn_checkout = (Button) findViewById(R.id.btn_checkout);
 
-        if(Store.cartItems.stream().filter(i -> i.getUserID() == UserServices.currentUser.getUserId()).count()>0){
-            empty.setVisibility(View.GONE);
-            btn_checkout.setVisibility(View.VISIBLE);
-        }else{
+        Log.wtf("cart", userCartList.toString());
+        if(userCartList.isEmpty()){
             empty.setVisibility(View.VISIBLE);
             btn_checkout.setVisibility(View.GONE);
+        }else{
+            empty.setVisibility(View.GONE);
+            btn_checkout.setVisibility(View.VISIBLE);
+
         }
 
         bottom_navigation = findViewById(R.id.bottom_navigation);

@@ -1,5 +1,9 @@
 package Adapters;
 
+import static com.example.Supermarket.CartActivity.userCartList;
+
+import static Services.ItemService.LoadImageFromURL;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -64,7 +68,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public CartAdapter() {
-        this.cartItems = Store.cartItems.stream().filter(i -> i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
+        this.cartItems = userCartList;
         System.out.println(UserServices.currentUser.getUserId());
         System.out.println(cartItems);
     }
@@ -85,7 +89,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         String priceTotalText = "Rp" + (NumberFormat.getNumberInstance(Locale.US).format(priceTotal));
         String qty = "Qty: " + Integer.toString(cartItems.get(position).getCount());
 //        viewHolder.imageView.setImageResource(R.drawable.noimage);
-        Picasso.with(context).load(cartItems.get(position).getItem().getImage()).into(viewHolder.imageView);
+        Picasso.with(getContext()).load(cartItems.get(position).getItem().getImage()).into(viewHolder.imageView);
+//        image = LoadImageFromURL(cartItems.get(position).getItem().getImage());
+        viewHolder.imageView.setImageDrawable(image);
         viewHolder.tv_title.setText(cartItems.get(position).getItem().getTitle());
 //        viewHolder.tv_price.setText(Integer.toString(cartItems.get(position).getItem().getPrice()));
         viewHolder.tv_price.setText(priceText);

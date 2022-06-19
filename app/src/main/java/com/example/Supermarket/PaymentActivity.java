@@ -1,5 +1,7 @@
 package com.example.Supermarket;
 
+import static com.example.Supermarket.CartActivity.userCartList;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,7 @@ import Store.Store;
 public class PaymentActivity extends AppCompatActivity {
     Button btn_checkout;
     TextView tv_totalPrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +38,10 @@ public class PaymentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new CartAdapter());
 
-        List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
+//        List<CartItem> filteredList = Store.cartItems.stream().filter(i -> i.getUserID() == UserServices.currentUser.getUserId()).collect(Collectors.toList());
         int totalPrice = 0;
-        for (int i = 0; i<filteredList.size(); i++) {
-           totalPrice =   totalPrice + filteredList.get(i).getItem().getPrice() * filteredList.get(i).getCount();
+        for (int i = 0; i<userCartList.size(); i++) {
+           totalPrice =   totalPrice + (userCartList.get(i).getItem().getPrice() * userCartList.get(i).getCount());
 //            Log.wtf("test", Integer.toString(totalPrice));
         }
         tv_totalPrice.setText("Total Price: " + "Rp." + Integer.toString(totalPrice));
